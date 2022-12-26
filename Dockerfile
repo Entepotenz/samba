@@ -1,7 +1,10 @@
 FROM alpine:latest
 EXPOSE 137/udp 138/udp 139 445
-VOLUME ["/etc", "/var/cache/samba", "/var/lib/samba", "/var/log/samba",\
-            "/run/samba"]
+VOLUME ["/etc",\
+        "/var/cache/samba",\
+        "/var/lib/samba",\
+        "/var/log/samba",\
+        "/run/samba"]
 
 # first layer - mostly static
 COPY samba.sh /usr/bin/
