@@ -17,6 +17,9 @@
 #===============================================================================
 
 set -o nounset                              # Treat unset variables as an error
+set -o errexit
+set -o pipefail
+if [ "${TRACE-0}" -eq 1 ]; then set -o xtrace; fi
 
 ### charmap: setup character mapping for file/directory names
 # Arguments:
@@ -235,11 +238,11 @@ Options (fields in '[]' are optional, '<>' are required):
 
 The 'command' (if provided and valid) will be run instead of samba
 " >&2
-    exit $RC
+    exit "$RC"
 }
 
-[[ "${USERID:-""}" =~ ^[0-9]+$ ]] && usermod -u $USERID -o smbuser
-[[ "${GROUPID:-""}" =~ ^[0-9]+$ ]] && groupmod -g $GROUPID -o smb
+[[ "${USERID:-""}" =~ ^[0-9]+$ ]] && usermod -u "$USERID" -o smbuser
+[[ "${GROUPID:-""}" =~ ^[0-9]+$ ]] && groupmod -g "$GROUPID" -o smb
 
 while getopts ":hc:G:g:i:nprs:Su:Ww:I:" opt; do
     case "$opt" in
