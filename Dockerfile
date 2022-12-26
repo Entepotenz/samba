@@ -1,5 +1,15 @@
 FROM alpine:latest
+EXPOSE 137/udp 138/udp 139 445
+VOLUME ["/etc",\
+        "/var/cache/samba",\
+        "/var/lib/samba",\
+        "/var/log/samba",\
+        "/run/samba"]
 
+# first layer - mostly static
+COPY samba.sh /usr/bin/
+
+# second layer - to be updated regularly
 # Install samba
 RUN apk --no-cache --no-progress add bash samba shadow tini tzdata && \
     addgroup -S smb && \
@@ -56,14 +66,11 @@ RUN apk --no-cache --no-progress add bash samba shadow tini tzdata && \
     echo '' >>$file && \
     rm -rf /tmp/*
 
-COPY samba.sh /usr/bin/
-
-EXPOSE 137/udp 138/udp 139 445
-
+# check if \\localhost is mountable
 HEALTHCHECK --interval=60s --timeout=15s \
             CMD smbclient -L \\localhost -U % -m SMB3
 
-VOLUME ["/etc", "/var/cache/samba", "/var/lib/samba", "/var/log/samba",\
-            "/run/samba"]
-
+# start with samba.sh to build  /etc/samba/smb.conf and set up environment before starting services
 ENTRYPOINT ["/sbin/tini", "--", "/usr/bin/samba.sh"]
+
+# ***** EOF *****
