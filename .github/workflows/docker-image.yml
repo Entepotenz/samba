@@ -44,14 +44,14 @@ jobs:
         id: baseupdatecheck
         uses: lucacome/docker-image-update-checker@v1
         with:
-          base-image: alpine:latest
+          base-image: library/alpine:latest
           image: ${{ steps.string_lower_case.outputs.lowercase }}:latest
 
       - name: determine if we should build
         id: set_output
         env:
-          IMAGE_NEEDS_UPDATE=${{ steps.baseupdatecheck.outputs.needs-updating }}
-          GIT_EVENT_NAME=${{ github.event_name }}
+          IMAGE_NEEDS_UPDATE: ${{ steps.baseupdatecheck.outputs.needs-updating }}
+          GIT_EVENT_NAME: ${{ github.event_name }}
         run: |
           if (( $IMAGE_NEEDS_UPDATE == "true" || $GIT_EVENT_NAME == "push" || $GIT_EVENT_NAME == "pull_request" )); then
             echo "::set-output name=run_jobs::true"
