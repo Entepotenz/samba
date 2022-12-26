@@ -26,6 +26,9 @@ jobs:
   check-pre-condition:
     name: evaluate if container should be build
     runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
     outputs:
       condition_met: ${{ steps.set_output.outputs.run_jobs }}
     steps:
