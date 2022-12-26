@@ -1,10 +1,7 @@
 FROM alpine:latest
-MAINTAINER David Personette <dperson@gmail.com>
-
-ARG PROJECT_VERSION=${PROJECT_VERSION}
 
 # Install samba
-RUN apk --no-cache --no-progress add bash samba==${PROJECT_VERSION} shadow tini tzdata && \
+RUN apk --no-cache --no-progress add bash samba shadow tini tzdata && \
     addgroup -S smb && \
     adduser -S -D -H -h /tmp -s /sbin/nologin -G smb -g 'Samba User' smbuser &&\
     file="/etc/samba/smb.conf" && \
