@@ -1,4 +1,4 @@
-FROM ${DISTRO_IMAGE}:${DISTRO_TAG}
+FROM alpine:latest
 MAINTAINER David Personette <dperson@gmail.com>
 
 ARG PROJECT_VERSION=${PROJECT_VERSION}
