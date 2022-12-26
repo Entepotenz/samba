@@ -7,7 +7,7 @@ VOLUME ["/etc",\
         "/run/samba"]
 
 # first layer - mostly static
-COPY samba.sh /usr/bin/
+COPY scripts/samba.sh /usr/bin/
 
 # second layer - to be updated regularly
 # Install samba

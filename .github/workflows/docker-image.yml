@@ -21,6 +21,7 @@ env:
   REGISTRY_GITHUB: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
   BUILD_PLATFORMS: "linux/amd64,linux/arm64,linux/arm/v6,linux/arm/v7"
+  BASE_IMAGE: "library/alpine:latest"
 
 jobs:
   check-pre-condition:
@@ -44,7 +45,7 @@ jobs:
         id: baseupdatecheck
         uses: lucacome/docker-image-update-checker@v1
         with:
-          base-image: library/alpine:latest
+          base-image: ${{ env.BASE_IMAGE }}
           image: ${{ steps.string_lower_case.outputs.lowercase }}:latest
 
       - name: determine if we should build
@@ -88,6 +89,7 @@ jobs:
 
       - name: Login to DockerHub
         uses: docker/login-action@v2 
+        if: github.event_name != 'pull_request'
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -118,6 +120,7 @@ jobs:
       
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v3
+        if: github.event_name != 'pull_request'
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
