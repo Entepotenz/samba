@@ -1,4 +1,5 @@
 # Samba
+[![Create and publish a Docker image](https://github.com/Entepotenz/samba/actions/workflows/docker-image.yml/badge.svg)](https://github.com/Entepotenz/samba/actions/workflows/docker-image.yml)
 
 Samba docker container
 
