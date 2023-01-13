@@ -56,8 +56,10 @@ jobs:
         run: |
           if (( $IMAGE_NEEDS_UPDATE == "true" || $GIT_EVENT_NAME == "push" || $GIT_EVENT_NAME == "pull_request" )); then
             echo "run_jobs=true" >> $GITHUB_OUTPUT
+            echo "### We need to build a new docker image! :rocket:" >> $GITHUB_STEP_SUMMARY
           else
             echo "run_jobs=false" >> $GITHUB_OUTPUT
+            echo "### Everything is already up-to-date!" >> $GITHUB_STEP_SUMMARY
           fi
 
   build-and-push-image:
