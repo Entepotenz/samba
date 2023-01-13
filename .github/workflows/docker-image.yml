@@ -55,7 +55,7 @@ jobs:
           GIT_EVENT_NAME: ${{ github.event_name }}
         run: |
           if (( $IMAGE_NEEDS_UPDATE == "true" || $GIT_EVENT_NAME == "push" || $GIT_EVENT_NAME == "pull_request" )); then
-            echo "run_jobs=false" >> $GITHUB_OUTPUT
+            echo "run_jobs=true" >> $GITHUB_OUTPUT
             echo "### We need to build a new docker image! :rocket:" >> $GITHUB_STEP_SUMMARY
             echo "IMAGE_NEEDS_UPDATE:='$IMAGE_NEEDS_UPDATE'" >> $GITHUB_STEP_SUMMARY
             echo "GIT_EVENT_NAME:='$GIT_EVENT_NAME'" >> $GITHUB_STEP_SUMMARY
