@@ -1,5 +1,6 @@
 # Samba
 [![Create and publish a Docker image](https://github.com/Entepotenz/samba/actions/workflows/docker-image.yml/badge.svg)](https://github.com/Entepotenz/samba/actions/workflows/docker-image.yml)
+[![GitHub Super-Linter](https://github.com/Entepotenz/samba/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
 Samba docker container
 
