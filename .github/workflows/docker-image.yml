@@ -81,10 +81,14 @@ jobs:
     permissions:
       contents: read
       packages: write
+      # id-token: write # needed for signing the images with GitHub OIDC Token
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      # - name: Install Cosign
+      #   uses: sigstore/cosign-installer@11086d25041f77fe8fe7b9ea4e48e3b9192b8f19 # v3.1.2
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -122,6 +126,7 @@ jobs:
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
+        id: build-and-push
         with:
           context: .
           platforms: ${{ env.BUILD_PLATFORMS }}
@@ -139,3 +144,27 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           repository: ${{ env.IMAGE_NAME }}
           readme-filepath: ./README.md
+
+      # - name: Extract metadata (tags, labels) for Docker
+      #   id: docker_meta
+      #   uses: docker/metadata-action@v5
+      #   with:
+      #     images: ${{ env.REGISTRY_GITHUB }}/${{ env.IMAGE_NAME }}
+      #     tags: |
+      #       type=sha,format=long
+
+      # # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
+      # - name: Sign image with a key
+      #   run: |
+      #     cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${TAGS}@${DIGEST}"
+      #   env:
+      #     TAGS: ${{ steps.docker_meta.outputs.tags }}
+      #     COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+      #     COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+      #     DIGEST: ${{ steps.build-and-push.outputs.digest }}
+
+      # - name: Sign the images with GitHub OIDC Token
+      #   env:
+      #     DIGEST: ${{ steps.build-and-push.outputs.digest }}
+      #     TAGS: ${{ steps.docker_meta.outputs.tags }}
+      #   run: cosign sign --yes "${TAGS}@${DIGEST}"
