@@ -1,10 +1,10 @@
-version: '3.4'
+version: "3.4"
 
 services:
   samba:
     image: dperson/samba
     environment:
-      TZ: 'EST5EDT'
+      TZ: "EST5EDT"
     networks:
       - default
     ports:

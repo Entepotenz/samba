@@ -1,10 +1,10 @@
 FROM alpine:latest
 EXPOSE 137/udp 138/udp 139 445
 VOLUME ["/etc",\
-        "/var/cache/samba",\
-        "/var/lib/samba",\
-        "/var/log/samba",\
-        "/run/samba"]
+    "/var/cache/samba",\
+    "/var/lib/samba",\
+    "/var/log/samba",\
+    "/run/samba"]
 
 # first layer - mostly static
 COPY scripts/samba.sh /usr/bin/
@@ -68,7 +68,7 @@ RUN apk --no-cache --no-progress add bash samba shadow tini tzdata && \
 
 # check if \\localhost is mountable
 HEALTHCHECK --interval=60s --timeout=15s \
-            CMD smbclient -L \\localhost -U % -m SMB3
+    CMD smbclient -L \\localhost -U % -m SMB3
 
 # start with samba.sh to build  /etc/samba/smb.conf and set up environment before starting services
 ENTRYPOINT ["/sbin/tini", "--", "/usr/bin/samba.sh"]
