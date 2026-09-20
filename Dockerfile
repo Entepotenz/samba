@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:latest@sha256:294b683cb724975bec92580e1e685676bd4b50bda910ddb8c51d4cabeaec77e6
 EXPOSE 137/udp 138/udp 139 445
 VOLUME ["/etc",\
     "/var/cache/samba",\
